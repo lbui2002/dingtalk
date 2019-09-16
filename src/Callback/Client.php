@@ -24,6 +24,9 @@ class Client extends BaseClient
      */
     public function register($params)
     {
+        $params['token'] = $this->app['config']->get('token');
+        $params['aes_key'] = $this->app['config']->get('aes_key');
+
         return $this->client->postJson('call_back/register_call_back', $params);
     }
 
@@ -44,6 +47,9 @@ class Client extends BaseClient
      */
     public function update($params)
     {
+        $params['token'] = $this->app['config']->get('token');
+        $params['aes_key'] = $this->app['config']->get('aes_key');
+
         return $this->client->postJson('call_back/update_call_back', $params);
     }
 
@@ -58,11 +64,11 @@ class Client extends BaseClient
     }
 
     /**
-     * 获取回调失败的结果
+     * 获取回调失败结果
      *
      * @return mixed
      */
-    public function failedResult()
+    public function failed()
     {
         return $this->client->get('call_back/get_call_back_failed_result');
     }

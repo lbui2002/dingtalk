@@ -11,6 +11,8 @@
 
 namespace EasyDingTalk\Kernel;
 
+use EasyDingTalk\Kernel\Exceptions\InvalidCredentialsException;
+use EasyDingTalk\Kernel\Http\Client;
 use function EasyDingTalk\tap;
 use Overtrue\Http\Traits\ResponseCastable;
 
@@ -37,6 +39,8 @@ class AccessToken
      * 获取钉钉 AccessToken
      *
      * @return array
+     *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function get()
     {
@@ -51,6 +55,8 @@ class AccessToken
      * 获取 AccessToken
      *
      * @return string
+     *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getToken()
     {
@@ -64,12 +70,15 @@ class AccessToken
      */
     public function refresh()
     {
-        $response = $this->app['client']->requestRaw('gettoken', 'GET', ['query' => [
+        $response = (new Client($this->app))->requestRaw('gettoken', 'GET', ['query' => [
             'appkey' => $this->app['config']->get('app_key'),
             'appsecret' => $this->app['config']->get('app_secret'),
         ]]);
 
         return tap($this->castResponseToType($response, 'array'), function ($value) {
+            if (0 !== $value['errcode']) {
+                throw new InvalidCredentialsException(json_encode($value));
+            }
             $this->getCache()->set($this->cacheFor(), $value, $value['expires_in']);
         });
     }

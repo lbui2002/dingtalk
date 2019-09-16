@@ -11,6 +11,7 @@
 
 namespace EasyDingTalk\Kernel\Concerns;
 
+use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 
 trait InteractsWithCache
@@ -29,7 +30,7 @@ trait InteractsWithCache
             return $this->cache;
         }
 
-        if (($this->app['cache'] ?? null) instanceof CacheInterface) {
+        if (property_exists($this, 'app') && $this->app->offsetExists('cache') && ($this->app['cache'] instanceof CacheInterface)) {
             return $this->cache = $this->app['cache'];
         }
 

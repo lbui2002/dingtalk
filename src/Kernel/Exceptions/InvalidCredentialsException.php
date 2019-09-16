@@ -9,15 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyDingTalk\Tests\Kernel;
+namespace EasyDingTalk\Kernel\Exceptions;
 
-use EasyDingTalk\Tests\TestCase;
-
-class AccessTokenTest extends TestCase
+class InvalidCredentialsException extends Exception
 {
-    /** @test */
-    public function get()
-    {
-        $this->markTestSkipped('wip');
-    }
+    //
 }

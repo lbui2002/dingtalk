@@ -16,7 +16,7 @@ use EasyDingTalk\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * 获取子部门ID列表
+     * 获取子部门 ID 列表
      *
      * @param string $id 部门ID
      *
@@ -36,10 +36,11 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function list($id = null, $isFetchChild = false, $lang = null)
+    public function list($id = null, bool $isFetchChild = false, $lang = null)
     {
-        return $this->client->get('department/list',
-            compact('id', 'lang') + ['fetch_child' => $isFetchChild]);
+        return $this->client->get('department/list', [
+            'id' => $id, 'lang' => $lang, 'fetch_child' => $isFetchChild ? 'true' : 'false',
+        ]);
     }
 
     /**
@@ -77,28 +78,6 @@ class Client extends BaseClient
     public function getParentsByUserId($userId)
     {
         return $this->client->get('department/list_parent_depts', compact('userId'));
-    }
-
-    /**
-     * 获取企业员工人数
-     *
-     * @param int $onlyActive
-     *
-     * @return mixed
-     */
-    public function getUserCount($onlyActive = 0)
-    {
-        return $this->client->get('user/get_org_user_count', compact('onlyActive'));
-    }
-
-    /**
-     * 获取企业已激活的员工人数
-     *
-     * @return mixed
-     */
-    public function getActivatedUserCount()
-    {
-        return $this->getUserCount(1);
     }
 
     /**

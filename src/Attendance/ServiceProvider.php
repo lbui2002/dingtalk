@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyDingTalk\Kernel;
+namespace EasyDingTalk\Attendance;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -25,8 +25,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        isset($pimple['access_token']) || $pimple['access_token'] = function ($app) {
-            return new AccessToken($app);
+        $pimple['attendance'] = function ($app) {
+            return new Client($app);
         };
     }
 }

@@ -27,7 +27,7 @@ class ClientTest extends TestCase
     public function list()
     {
         $this->make(Client::class)->list()
-            ->assertUri('department/list')->assertQuery(['id' => null, 'lang' => null, 'fetch_child' => false]);
+            ->assertUri('department/list')->assertQuery(['id' => null, 'lang' => null, 'fetch_child' => 'false']);
     }
 
     /** @test */
@@ -49,20 +49,6 @@ class ClientTest extends TestCase
     {
         $this->make(Client::class)->getParentsByUserId('mingyoung')
             ->assertUri('department/list_parent_depts')->assertQuery(['userId' => 'mingyoung']);
-    }
-
-    /** @test */
-    public function getUserCount()
-    {
-        $this->make(Client::class)->getUserCount()
-            ->assertUri('user/get_org_user_count')->assertQuery(['onlyActive' => 0]);
-    }
-
-    /** @test */
-    public function getActivatedUserCount()
-    {
-        $this->make(Client::class)->getActivatedUserCount()
-            ->assertUri('user/get_org_user_count')->assertQuery(['onlyActive' => 1]);
     }
 
     /** @test */

@@ -23,7 +23,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function tags($offset, $size)
+    public function labels($offset = 0, $size = 100)
     {
         return $this->client->postJson('topapi/extcontact/listlabelgroups', compact('offset', 'size'));
     }
@@ -36,7 +36,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function list($offset, $size)
+    public function list($offset = 0, $size = 100)
     {
         return $this->client->postJson('topapi/extcontact/list', compact('offset', 'size'));
     }
@@ -94,7 +94,6 @@ class Client extends BaseClient
 
     /**
      * 获取通讯录权限范围
-     *
      *
      * @return mixed
      */

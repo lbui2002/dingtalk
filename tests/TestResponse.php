@@ -48,6 +48,20 @@ class TestResponse extends Response
     /**
      * @throws \PHPUnit\Framework\ExpectationFailedException
      *
+     * @param string $method
+     *
+     * @return $this
+     */
+    public function assertMethod($method)
+    {
+        Assert::assertSame($this->method, $method);
+
+        return $this;
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     *
      * @param string $uri
      *
      * @return $this
@@ -57,6 +71,30 @@ class TestResponse extends Response
         Assert::assertSame($this->uri, $uri);
 
         return $this;
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     *
+     * @param string $uri
+     *
+     * @return $this
+     */
+    public function assertGetUri($uri)
+    {
+        return $this->assertMethod('GET')->assertUri($uri);
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     *
+     * @param string $uri
+     *
+     * @return $this
+     */
+    public function assertPostUri($uri)
+    {
+        return $this->assertMethod('POST')->assertUri($uri);
     }
 
     /**
@@ -76,6 +114,16 @@ class TestResponse extends Response
     /**
      * @throws \PHPUnit\Framework\ExpectationFailedException
      *
+     * @return $this
+     */
+    public function assertEmptyQuery()
+    {
+        return $this->assertQuery([]);
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     *
      * @param array $json
      *
      * @return $this
@@ -83,6 +131,18 @@ class TestResponse extends Response
     public function assertPostJson($json)
     {
         Assert::assertSame($this->options['json'], $json);
+
+        return $this;
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return $this
+     */
+    public function assertPostFormParams($params)
+    {
+        Assert::assertSame($this->options['form_params'], $params);
 
         return $this;
     }
